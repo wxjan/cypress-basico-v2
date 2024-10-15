@@ -23,7 +23,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
   it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', function() {
     cy.get('#firstName').type('Nana')
     cy.get('#lastName').type('Cozy')
-    cy.get('#email').type('nana@exemplo,com')
+    cy.get('#email').type('nana@exemplo,com') // Email inválido
     cy.get('#open-text-area').type('Teste')
     cy.contains('button', 'Enviar').click()
 
@@ -49,13 +49,13 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
   it('preenche e limpa os campos nome, sobrenome, email e telefone', function() {
     cy.get('#firstName')
-      .type('nana')
-      .should('have.value', 'nana')
+      .type('Nana')
+      .should('have.value', 'Nana')
       .clear()
       .should('have.value', '')
     cy.get('#lastName')
-      .type('cozy')
-      .should('have.value', 'cozy')
+      .type('Cozy')
+      .should('have.value', 'Cozy')
       .clear()
       .should('have.value', '')
     cy.get('#email')
@@ -82,7 +82,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
     cy.get('.success').should('be.visible')
   })
 
-  it('seleciona um produto (Youtube) por seu texto', function() {
+  it('seleciona um produto (YouTube) por seu texto', function() {
     cy.get('#product')
       .select('YouTube')
       .should('have.value', 'youtube')
@@ -90,7 +90,7 @@ describe('Central de Atendimento ao Cliente TAT', function() {
 
   it('seleciona um produto (Mentoria) por seu valor (value)', function() {
     cy.get('#product')
-      .select('Mentoria')
+      .select('mentoria')
       .should('have.value', 'mentoria')
   })
 
@@ -142,24 +142,22 @@ describe('Central de Atendimento ao Cliente TAT', function() {
   })
 
   it('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', function() {
-    cy.fixture('example.json').as('sampleFile') // Cria um alias para a fixture
-    cy.get('input[type="file"]') // Seleciona o campo de upload de arquivo
-      .selectFile('@sampleFile') // Usa o alias para selecionar o arquivo
+    cy.fixture('example.json').as('sampleFile')
+    cy.get('input[type="file"]')
+      .selectFile('@sampleFile')
       .should(function($input) {
-        expect($input[0].files[0].name).to.equal('example.json') // Verifica se o arquivo selecionado é o correto
+        expect($input[0].files[0].name).to.equal('example.json')
       })
   })
+
   it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', function(){
     cy.get('#privacy a').should('have.attr', 'target', '_blank')
   })
 
-  it.only('acessa a página da política de privacidade removendo o target e então clicando no link', function(){
+  it('acessa a página da política de privacidade removendo o target e então clicando no link', function(){
     cy.get('#privacy a')
       .invoke('removeAttr', 'target')
       .click()
-      cy.contains('Talking About Testing').should('be.visible')
+    cy.contains('Talking About Testing').should('be.visible')
   })
 })
-
-
-
